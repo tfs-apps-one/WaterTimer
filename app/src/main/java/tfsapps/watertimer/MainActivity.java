@@ -15,6 +15,9 @@ public class MainActivity extends AppCompatActivity {
     private boolean auto_restart = false;
     private int timer_count = 15;
     private int interval_time = 5;
+    private boolean notice_light = false;
+    private boolean notice_alarm = true;
+    private boolean notice_vibration = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
         timer_count = Integer.parseInt(temp);
         temp = sharedPreferences.getString("interval_time", "5");
         interval_time = Integer.parseInt(temp);
+        notice_light = sharedPreferences.getBoolean("notice_light", false);
+        notice_alarm = sharedPreferences.getBoolean("notice_alarm", true);
+        notice_vibration = sharedPreferences.getBoolean("notice_vibration", false);
 
         /*
         //  アラーム種類が変更？
