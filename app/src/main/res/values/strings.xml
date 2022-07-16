@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">WaterTimer</string>
+
+    <string name="action_settings">SETTING</string>
+    <string name="btn_tips">TIPS</string>
+
+    <string name="preference_title">SET LIST</string>
+
+    <string name="auto_retry_title">Automatic Restart</string>
+    <string name="auto_retry_summary">It will start automatically after the time is up.</string>
+
+    <string name="timer_count_title">Timer Setting</string>
+    <string name="timer_count_summary">Set a Timer (recommended 15-20 min)</string>
+    <string name="timer_count_dialog">Timer Input</string>
+
+    <string name="interval_title">Interval Time Setting</string>
+    <string name="interval_summary">Set a Interval Time</string>
+    <string name="interval_dialog">Interval Time Input</string>
 </resources>

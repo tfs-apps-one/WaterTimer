@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">水分補給タイマー</string>
+    <string name="action_settings">設定</string>
+    <string name="btn_tips">TIPS</string>
+
+    <string name="preference_title">設定項目</string>
+
+    <string name="auto_retry_title">自動再スタート</string>
+    <string name="auto_retry_summary">タイムアップ後に自動的に再スタートします</string>
+
+    <string name="timer_count_title">タイマーの設定</string>
+    <string name="timer_count_summary">タイマーを設定する（推奨は15〜20分）</string>
+    <string name="timer_count_dialog">タイマー時間の入力</string>
+
+    <string name="interval_title">インターバル時間の設定</string>
+    <string name="interval_summary">インターバルを設定する</string>
+    <string name="interval_dialog">インターバル時間の入力</string>
+
+</resources>
