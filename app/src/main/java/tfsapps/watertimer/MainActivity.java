@@ -9,6 +9,8 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,10 +21,63 @@ public class MainActivity extends AppCompatActivity {
     private boolean notice_alarm = true;
     private boolean notice_vibration = false;
 
+    private boolean isActive = false;
+    private boolean isPause = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+    }
+
+    public void screenDisplay(){
+        Button btn_start = (Button) findViewById(R.id.btn_start);
+        Button btn_clear = (Button) findViewById(R.id.btn_clear);
+        String mess = "";
+
+        if (isActive == true) {
+            if (isPause == true){    mess += "STOP";    }
+            else                {    mess += "START";   }
+            btn_start.setText(mess);
+
+            btn_start.setBackgroundTintList(null);
+            btn_start.setTextColor(getColor(R.color.material_on_background_disabled));
+            btn_start.setBackgroundResource(R.drawable.btn_round2);
+
+            btn_clear.setBackgroundTintList(null);
+            btn_clear.setTextColor(getColor(R.color.design_default_color_error));
+            btn_clear.setBackgroundResource(R.drawable.btn_round2);
+        }
+        else{
+            btn_start.setBackgroundTintList(null);
+            mess += "START";
+            btn_start.setText(mess);
+            btn_start.setTextColor(getColor(R.color.design_default_color_primary_variant));
+            btn_start.setBackgroundResource(R.drawable.btn_round2);
+
+            btn_clear.setBackgroundTintList(null);
+            btn_clear.setTextColor(getColor(R.color.design_default_color_error));
+            btn_clear.setBackgroundResource(R.drawable.btn_round2);
+        }
+    }
+
+    public void onStart(View v){
+        if(isActive == false){
+            isActive = true;
+            isPause = false;
+        }
+        else{
+            isPause = true;
+        }
+
+        screenDisplay();
+
+    }
+    public void onClear(View v){
+        isActive = false;
+        isPause = false;
+
+        screenDisplay();
     }
 
     //  メニュー
@@ -101,6 +156,8 @@ public class MainActivity extends AppCompatActivity {
         if (alarm_stop_flag == false) stopmax = 1;
         else stopmax = 10;
         */
+
+        screenDisplay();
     }
 
 

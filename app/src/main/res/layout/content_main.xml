@@ -6,8 +6,95 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:padding="10dp"
+    android:orientation="vertical"
     tools:context=".MainActivity"
     tools:showIn="@layout/activity_main">
+
+    <TextView
+        android:id="@+id/timer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/image_status"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="10dp"
+        android:background="@color/cardview_shadow_end_color"
+        android:textColor="#555599"
+        android:textSize="60dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/image_status"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:layout_constraintTop_toBottomOf="parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/cardview_shadow_end_color"
+        android:src="@drawable/per100" />
+
+    <TextView
+        android:id="@+id/text_status"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginStart="10dp"
+        app:layout_constraintTop_toBottomOf="parent"
+        android:layout_marginTop="150dp"
+        android:layout_marginEnd="10dp"
+        android:textAlignment="center"
+        android:text="100%"
+        android:textStyle="bold"
+        app:backgroundTint="@null"
+        android:textColor="#555599"
+        android:textSize="30dp" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toBottomOf="parent"
+        android:layout_height="70dp"
+        android:layout_marginTop="300dp"
+        android:layout_alignParentStart="true"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_start"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="10dp"
+            android:onClick="onStart"
+            android:background="@color/cardview_shadow_start_color"
+            android:textColor="@color/design_default_color_primary_variant"
+            android:textStyle="bold"
+            android:textSize="26dp"
+            android:text="START" />
+
+        <Button
+            android:id="@+id/btn_clear"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="10dp"
+            android:onClick="onClear"
+            android:background="@color/cardview_shadow_start_color"
+            android:textColor="@color/design_default_color_error"
+            android:textStyle="bold"
+            android:textSize="26dp"
+            android:text="CLEAR" />
+
+    </LinearLayout>
 
 
 </RelativeLayout>
