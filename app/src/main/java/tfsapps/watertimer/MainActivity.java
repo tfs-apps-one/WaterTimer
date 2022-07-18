@@ -4,22 +4,199 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.os.CountDownTimer;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 
 public class MainActivity extends AppCompatActivity {
 
+    //
     private boolean auto_restart = false;
     private int timer_count = 15;
     private int interval_time = 5;
+    private boolean notice_light = false;
+    private boolean notice_alarm = true;
+    private boolean notice_vibration = false;
+
+    //ステータス
+    private boolean isActive = false;
+    private boolean isPause = false;
+
+    //  国設定
+    private Locale _local;
+    private String _language;
+    private String _country;
+
+
+    //タイマー値
+    final long MIN_1 = 60000;
+    final long MAX_45 = 45 * 60000;
+    final long INTERVAL = 10;
+    private CountDown countDown;
+    private TextView timerText;
+    private SimpleDateFormat dataFormat = new SimpleDateFormat("mm:ss.SS", Locale.US);
+//    private SimpleDateFormat dataFormat = new SimpleDateFormat("mm:ss", Locale.US);
+
+    private long now_countNumber = 0;           //現在のタイマー値（カウントダウン中の値）
+    private long countNumber = 0;
+    private long org_countNumber = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //  国設定
+        _local = Locale.getDefault();
+        _language = _local.getLanguage();
+        _country = _local.getCountry();
+
+        /* 初期化処理 */
+        timerText = findViewById(R.id.timer);
+        timerText.setText(dataFormat.format(0));
+        screenDisplay();
+    }
+
+    public void screenDisplayStatus(){
+        ImageView img_cup = (ImageView) findViewById(R.id.image_status);
+        TextView txt_cup = (TextView) findViewById(R.id.text_status);
+
+        int temp = 0;
+
+        if (now_countNumber == 0 || (isActive == false && isPause == false)) {
+            txt_cup.setText("100%");
+            img_cup.setImageResource(R.drawable.per100);
+        }
+        else {
+            temp = (int)((now_countNumber * 100) / org_countNumber);
+//            temp = (now_countNumber / countNumber) * 100;
+            txt_cup.setText("" + temp + "%");
+
+            if (temp > 75){
+                img_cup.setImageResource(R.drawable.per100);
+            }
+            else if (temp > 50){
+                img_cup.setImageResource(R.drawable.per075);
+            }
+            else if (temp > 25){
+                img_cup.setImageResource(R.drawable.per050);
+            }
+            else if (temp > 0){
+                img_cup.setImageResource(R.drawable.per025);
+            }
+            else{
+                img_cup.setImageResource(R.drawable.per000);
+            }
+        }
+
+    }
+
+    public void screenDisplay(){
+        Button btn_start = (Button) findViewById(R.id.btn_start);
+        Button btn_clear = (Button) findViewById(R.id.btn_clear);
+        String mess = "";
+
+        screenDisplayStatus();
+
+        if (isActive == true) {
+            if (isPause == false)   {    mess += "STOP";    }
+            else                    {    mess += "START";   }
+            btn_start.setText(mess);
+
+            btn_start.setBackgroundTintList(null);
+            btn_start.setTextColor(getColor(R.color.material_on_background_disabled));
+            btn_start.setBackgroundResource(R.drawable.btn_round2);
+
+            btn_clear.setBackgroundTintList(null);
+            btn_clear.setTextColor(getColor(R.color.design_default_color_error));
+            btn_clear.setBackgroundResource(R.drawable.btn_round2);
+        }
+        else{
+            timerText.setText(dataFormat.format(countNumber));
+
+            btn_start.setBackgroundTintList(null);
+            mess += "START";
+            btn_start.setText(mess);
+            btn_start.setTextColor(getColor(R.color.design_default_color_primary_variant));
+            btn_start.setBackgroundResource(R.drawable.btn_round2);
+
+            btn_clear.setBackgroundTintList(null);
+            btn_clear.setTextColor(getColor(R.color.design_default_color_error));
+            btn_clear.setBackgroundResource(R.drawable.btn_round2);
+        }
+    }
+
+    public void onStart(View v) throws InterruptedException {
+        if (isActive == false ) {
+            if (countNumber > 0) {
+                if (countDown != null){
+                    countDown.cancel();
+                    countDown = null;
+                }
+                // タイマー関連（インスタンス生成）
+                org_countNumber = countNumber;
+                countDown = new CountDown(countNumber, INTERVAL);
+                countDown.start();
+                isActive = true;
+                isPause = false;
+            }
+            screenDisplay();
+        }
+        else{
+            /* タイマー途中 */
+            if (now_countNumber > 0){
+                if (isPause == true) {
+                    if (countDown != null){
+                        countDown.cancel();
+                        countDown = null;
+                    }
+                    countNumber = now_countNumber;
+                    countDown = new CountDown(countNumber, INTERVAL);
+                    countDown.start();
+                    isActive = true;
+                    isPause = false;
+                }
+                else{
+                    if (countDown != null){
+                        countDown.cancel();
+                    }
+                    isPause = true;
+                }
+                screenDisplay();
+            }
+            //エラー表示が親切
+        }
+    }
+    public void onClear(View v){
+        if (isActive == true){
+//            DeviceOff();
+        }
+        countNumber = (timer_count * MIN_1);
+        if (countNumber > MAX_45){
+            countNumber = MAX_45;
+        }
+
+        if (countDown != null){
+            countDown.cancel();
+        }
+        isActive = false;
+        isPause = false;
+        timerText.setText(dataFormat.format(0));
+        screenDisplay();
     }
 
     //  メニュー
@@ -63,6 +240,14 @@ public class MainActivity extends AppCompatActivity {
         timer_count = Integer.parseInt(temp);
         temp = sharedPreferences.getString("interval_time", "5");
         interval_time = Integer.parseInt(temp);
+        notice_light = sharedPreferences.getBoolean("notice_light", false);
+        notice_alarm = sharedPreferences.getBoolean("notice_alarm", true);
+        notice_vibration = sharedPreferences.getBoolean("notice_vibration", false);
+
+        countNumber = (timer_count * MIN_1);
+        if (countNumber > MAX_45){
+            countNumber = MAX_45;
+        }
 
         /*
         //  アラーム種類が変更？
@@ -95,7 +280,55 @@ public class MainActivity extends AppCompatActivity {
         if (alarm_stop_flag == false) stopmax = 1;
         else stopmax = 10;
         */
+
+        screenDisplay();
     }
+
+
+    /*
+    カウントダウン処理
+ */
+    class CountDown extends CountDownTimer {
+        private long nowcount;
+
+        CountDown(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+            nowcount = millisInFuture;
+        }
+        @Override
+        public void onFinish() {
+            // 完了
+            //テキスト
+            timerText.setText(dataFormat.format(0));
+            now_countNumber = 0;
+//            DeviceOn();
+        }
+        public void onPause1(){
+            onPause();
+        }
+        public void onResume1(){
+            onResume1();
+        }
+        public void onRestart(){
+            onRestart();
+        }
+        // インターバルで呼ばれる
+        @Override
+        public void onTick(long millisUntilFinished) {
+            now_countNumber = millisUntilFinished;
+            // 残り時間を分、秒、ミリ秒に分割
+            long mm = millisUntilFinished / 1000 / 60;
+            long ss = millisUntilFinished / 1000 % 60;
+            long ms = (millisUntilFinished - ss * 1000 - mm * 1000 * 60)/10;
+//            timerText.setText(String.format("%1$02d:%2$02d.%2$02d", mm, ss, ms));
+            timerText.setText(String.format("%2d:%2$02d.%2$02d", mm, ss, ms));
+//            timerText.setText(String.format("%1$02d:%2$02d", mm, ss));
+            timerText.setText(dataFormat.format(millisUntilFinished));
+
+            screenDisplayStatus();
+        }
+    }
+
 
 
     @Override

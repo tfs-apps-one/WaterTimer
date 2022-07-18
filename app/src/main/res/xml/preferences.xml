@@ -26,6 +26,24 @@
             android:summary="@string/interval_summary"
             android:title="@string/interval_title" />
 
+        <CheckBoxPreference
+            android:key="notice_light"
+            android:summary="@string/notice_light_summary"
+            android:title="@string/notice_light_title" />
+
+        <CheckBoxPreference
+            android:key="notice_alarm"
+            android:summary="@string/notice_alarm_summary"
+            android:title="@string/notice_alarm_title" />
+
+        <CheckBoxPreference
+            android:key="notice_vibration"
+            android:summary="@string/notice_vibration_summary"
+            android:title="@string/notice_vibration_title" />
+
+
+
+
     </PreferenceCategory>
 
 </PreferenceScreen>

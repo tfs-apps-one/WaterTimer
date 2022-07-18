@@ -9,12 +9,21 @@
     <string name="auto_retry_title">自動再スタート</string>
     <string name="auto_retry_summary">タイムアップ後に自動的に再スタートします</string>
 
-    <string name="timer_count_title">タイマーの設定</string>
+    <string name="timer_count_title">タイマーの設定（分単位）</string>
     <string name="timer_count_summary">タイマーを設定する（推奨は15〜20分）</string>
-    <string name="timer_count_dialog">タイマー時間の入力</string>
+    <string name="timer_count_dialog">タイマー時間の入力（分単位:最大45分）</string>
 
-    <string name="interval_title">インターバル時間の設定</string>
-    <string name="interval_summary">インターバルを設定する</string>
-    <string name="interval_dialog">インターバル時間の入力</string>
+    <string name="interval_title">インターバル時間の設定（分単位）</string>
+    <string name="interval_summary">タイムアップ時のインターバル時間を設定する</string>
+    <string name="interval_dialog">インターバル時間の入力（分単位:最大45分）</string>
+
+    <string name="notice_light_title">通知ライト</string>
+    <string name="notice_light_summary">タイムアップ時にライトを点灯します</string>
+
+    <string name="notice_alarm_title">通知アラーム</string>
+    <string name="notice_alarm_summary">タイムアップ時にアラームを鳴動します</string>
+
+    <string name="notice_vibration_title">通知バイブ</string>
+    <string name="notice_vibration_summary">タイムアップ時に振動します</string>
 
 </resources>
