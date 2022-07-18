@@ -11,11 +11,11 @@
 
     <string name="timer_count_title">Timer Setting (min)</string>
     <string name="timer_count_summary">Set a Timer (recommended 15-20 min)</string>
-    <string name="timer_count_dialog">Timer Input</string>
+    <string name="timer_count_dialog">Timer Input (max 45 min)</string>
 
     <string name="interval_title">Interval Time Setting (min)</string>
     <string name="interval_summary">Set a Interval Time</string>
-    <string name="interval_dialog">Interval Time Input</string>
+    <string name="interval_dialog">Interval Time Input (max 45 min)</string>
 
     <string name="notice_light_title">Setting Light</string>
     <string name="notice_light_summary">When the time is up Turn on the light.</string>
