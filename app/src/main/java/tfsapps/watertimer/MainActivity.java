@@ -186,6 +186,10 @@ public class MainActivity extends AppCompatActivity {
 //            DeviceOff();
         }
         countNumber = (timer_count * MIN_1);
+        if (countNumber > MAX_45){
+            countNumber = MAX_45;
+        }
+
         if (countDown != null){
             countDown.cancel();
         }
