@@ -32,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
     private boolean notice_vibration = false;
 
     //ステータス
+    final int MODE_NORMAL = 0;
+    final int MODE_INTERVAL = 1;
+    private int ActiveMode = 0;
     private boolean isActive = false;
     private boolean isPause = false;
 

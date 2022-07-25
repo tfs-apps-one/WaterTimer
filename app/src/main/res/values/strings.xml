@@ -3,6 +3,7 @@
 
     <string name="action_settings">SETTING</string>
     <string name="btn_tips">TIPS</string>
+    <string name="message_text">Please display this screen while the timer is running</string>
 
     <string name="preference_title">SET LIST</string>
 

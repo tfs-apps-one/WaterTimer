@@ -94,5 +94,18 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/text_message"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/linearLayout1"
+        app:layout_constraintTop_toBottomOf="@id/linearLayout1"
+        android:layout_marginTop="10dp"
+        android:textAlignment="center"
+        android:text="@string/message_text"
+        android:textStyle="bold"
+        app:backgroundTint="@null"
+        android:textColor="#995555"
+        android:textSize="15dp" />
 
 </RelativeLayout>

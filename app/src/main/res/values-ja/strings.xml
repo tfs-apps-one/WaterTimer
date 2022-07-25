@@ -3,6 +3,7 @@
     <string name="app_name">水分補給タイマー</string>
     <string name="action_settings">設定</string>
     <string name="btn_tips">TIPS</string>
+    <string name="message_text">カウントダウン中はアプリ画面を閉じないで下さい</string>
 
     <string name="preference_title">設定項目</string>
 
