@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.media.Image;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -74,20 +75,34 @@ public class MainActivity extends AppCompatActivity {
         screenDisplay();
     }
 
+    /**********************************************************************
+        表示処理
+     *********************************************************************/
+    /* ステータスの表示（コップ画面） */
     public void screenDisplayStatus(){
         ImageView img_cup = (ImageView) findViewById(R.id.image_status);
         TextView txt_cup = (TextView) findViewById(R.id.text_status);
 
+        String mess_break = getString(R.string.intervaling);
         int temp = 0;
+
+        if (ActiveMode == MODE_INTERVAL){
+            txt_cup.setText(mess_break);
+            txt_cup.setTextColor(getResources().getColor(R.color.my_green));
+            img_cup.setImageResource(R.drawable.per000);
+            return;
+        }
 
         if (now_countNumber == 0 || (isActive == false && isPause == false)) {
             txt_cup.setText("100%");
+            txt_cup.setTextColor(getResources().getColor(R.color.my_blue));
             img_cup.setImageResource(R.drawable.per100);
         }
         else {
             temp = (int)((now_countNumber * 100) / org_countNumber);
 //            temp = (now_countNumber / countNumber) * 100;
             txt_cup.setText("" + temp + "%");
+            txt_cup.setTextColor(getResources().getColor(R.color.my_blue));
 
             if (temp > 75){
                 img_cup.setImageResource(R.drawable.per100);
@@ -107,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
+    /* ボタンなどの画面パーツの表示 */
     public void screenDisplay(){
         Button btn_start = (Button) findViewById(R.id.btn_start);
         Button btn_clear = (Button) findViewById(R.id.btn_clear);
@@ -143,8 +158,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void onStart(View v) throws InterruptedException {
+    /**********************************************************************
+        ボタン処理
+     *********************************************************************/
+    public void timerStartExec(){
+
         if (isActive == false ) {
+//test_make
+            countNumber = 5000;
             if (countNumber > 0) {
                 if (countDown != null){
                     countDown.cancel();
@@ -184,22 +205,56 @@ public class MainActivity extends AppCompatActivity {
             //エラー表示が親切
         }
     }
+
+    public void onStart(View v) throws InterruptedException {
+        timerStartExec();
+    }
     public void onClear(View v){
         if (isActive == true){
 //            DeviceOff();
         }
-        countNumber = (timer_count * MIN_1);
-        if (countNumber > MAX_45){
-            countNumber = MAX_45;
-        }
+        timer_Setting(timer_count);
 
         if (countDown != null){
             countDown.cancel();
         }
         isActive = false;
         isPause = false;
+        ActiveMode = MODE_NORMAL;
         timerText.setText(dataFormat.format(0));
         screenDisplay();
+    }
+    /* 自動スタート処理 */
+    public void AutoStart(){
+
+        /* 自動スタートSWが「無効：FALSE」の時 */
+        if (auto_restart == false){
+            ActiveMode = MODE_NORMAL;
+            return;
+        }
+
+        isActive = false;
+        isPause = false;
+
+        // モードの切り替え
+        switch (ActiveMode){
+            case MODE_INTERVAL: ActiveMode = MODE_NORMAL;
+                                timer_Setting(timer_count);
+                                break;
+            default:            ActiveMode = MODE_INTERVAL;
+                                timer_Setting(interval_time);
+                                break;
+        }
+        screenDisplay();
+        timerStartExec();
+    }
+
+
+    public void timer_Setting(int temp_time){
+        countNumber = (temp_time * MIN_1);
+        if (countNumber > MAX_45){
+            countNumber = MAX_45;
+        }
     }
 
     //  メニュー
@@ -247,10 +302,7 @@ public class MainActivity extends AppCompatActivity {
         notice_alarm = sharedPreferences.getBoolean("notice_alarm", true);
         notice_vibration = sharedPreferences.getBoolean("notice_vibration", false);
 
-        countNumber = (timer_count * MIN_1);
-        if (countNumber > MAX_45){
-            countNumber = MAX_45;
-        }
+        timer_Setting(timer_count);
 
         /*
         //  アラーム種類が変更？
@@ -289,8 +341,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     /*
-    カウントダウン処理
- */
+        カウントダウン処理
+     */
     class CountDown extends CountDownTimer {
         private long nowcount;
 
@@ -302,8 +354,10 @@ public class MainActivity extends AppCompatActivity {
         public void onFinish() {
             // 完了
             //テキスト
+
             timerText.setText(dataFormat.format(0));
             now_countNumber = 0;
+            AutoStart();
 //            DeviceOn();
         }
         public void onPause1(){
@@ -327,7 +381,8 @@ public class MainActivity extends AppCompatActivity {
             timerText.setText(String.format("%2d:%2$02d.%2$02d", mm, ss, ms));
 //            timerText.setText(String.format("%1$02d:%2$02d", mm, ss));
             timerText.setText(dataFormat.format(millisUntilFinished));
-
+            if (ActiveMode == MODE_NORMAL)  timerText.setTextColor(getResources().getColor(R.color.my_blue));
+            else                            timerText.setTextColor(getResources().getColor(R.color.my_green));
             screenDisplayStatus();
         }
     }

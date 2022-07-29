@@ -27,4 +27,6 @@
     <string name="notice_vibration_title">Setting Vibration</string>
     <string name="notice_vibration_summary">It vibrates when the time is up.</string>
 
+    <string name="intervaling">** During break **</string>
+
 </resources>

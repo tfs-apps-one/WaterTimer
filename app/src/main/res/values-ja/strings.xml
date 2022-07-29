@@ -27,4 +27,6 @@
     <string name="notice_vibration_title">通知バイブ</string>
     <string name="notice_vibration_summary">タイムアップ時に振動します</string>
 
+    <string name="intervaling"> *** 休憩中 *** </string>
+
 </resources>
