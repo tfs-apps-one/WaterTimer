@@ -88,21 +88,21 @@ public class MainActivity extends AppCompatActivity {
 
         if (ActiveMode == MODE_INTERVAL){
             txt_cup.setText(mess_break);
-            txt_cup.setTextColor(getResources().getColor(R.color.my_green));
-            img_cup.setImageResource(R.drawable.per000);
+//            txt_cup.setTextColor(getResources().getColor(R.color.my_green));
+//            img_cup.setImageResource(R.drawable.per000);
             return;
         }
 
         if (now_countNumber == 0 || (isActive == false && isPause == false)) {
             txt_cup.setText("100%");
-            txt_cup.setTextColor(getResources().getColor(R.color.my_blue));
+//            txt_cup.setTextColor(getResources().getColor(R.color.my_blue));
             img_cup.setImageResource(R.drawable.per100);
         }
         else {
             temp = (int)((now_countNumber * 100) / org_countNumber);
 //            temp = (now_countNumber / countNumber) * 100;
             txt_cup.setText("" + temp + "%");
-            txt_cup.setTextColor(getResources().getColor(R.color.my_blue));
+//            txt_cup.setTextColor(getResources().getColor(R.color.my_blue)   );
 
             if (temp > 75){
                 img_cup.setImageResource(R.drawable.per100);
@@ -381,8 +381,8 @@ public class MainActivity extends AppCompatActivity {
             timerText.setText(String.format("%2d:%2$02d.%2$02d", mm, ss, ms));
 //            timerText.setText(String.format("%1$02d:%2$02d", mm, ss));
             timerText.setText(dataFormat.format(millisUntilFinished));
-            if (ActiveMode == MODE_NORMAL)  timerText.setTextColor(getResources().getColor(R.color.my_blue));
-            else                            timerText.setTextColor(getResources().getColor(R.color.my_green));
+//            if (ActiveMode == MODE_NORMAL)  timerText.setTextColor(getResources().getColor(R.color.my_blue));
+//            else                            timerText.setTextColor(getResources().getColor(R.color.my_green));
             screenDisplayStatus();
         }
     }
