@@ -19,6 +19,14 @@
             android:title="@string/timer_count_title" />
 
         <EditTextPreference
+            android:dialogTitle="@string/notice_time_dialog"
+            android:key="notice_time"
+            android:inputType="number"
+            android:maxLength="2"
+            android:summary="@string/notice_time_summary"
+            android:title="@string/notice_time_title" />
+
+        <EditTextPreference
             android:dialogTitle="@string/interval_dialog"
             android:key="interval_time"
             android:inputType="number"

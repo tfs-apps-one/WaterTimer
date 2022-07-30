@@ -2,12 +2,15 @@ package tfsapps.watertimer;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.hardware.camera2.CameraManager;
 import android.media.Image;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
@@ -20,13 +23,20 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+//アラーム関連
+import android.media.MediaPlayer;
+//ライト関連
+import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraManager;
+import android.media.AudioManager;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    //
+    //設定DB関連
     private boolean auto_restart = false;
     private int timer_count = 15;
+    private int notice_time = 1;
     private int interval_time = 5;
     private boolean notice_light = false;
     private boolean notice_alarm = true;
@@ -58,6 +68,16 @@ public class MainActivity extends AppCompatActivity {
     private long countNumber = 0;
     private long org_countNumber = 0;
 
+    //デバイス関係
+    //バイブレーション
+    static private Vibrator vibrator;
+    //アラーム
+    private MediaPlayer alarm;
+    //ライト関連
+    private CameraManager mCameraManager;
+    private String mCameraId = null;
+    static boolean islightON = false;
+    private AudioManager am;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +93,24 @@ public class MainActivity extends AppCompatActivity {
         timerText = findViewById(R.id.timer);
         timerText.setText(dataFormat.format(0));
         screenDisplay();
+
+        vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+        alarm = MediaPlayer.create(this, R.raw.alarm);
+
+        //カメラ初期化
+        mCameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
+        mCameraManager.registerTorchCallback(new CameraManager.TorchCallback() {
+            @Override
+            public void onTorchModeChanged(String cameraId, boolean enabled) {
+                super.onTorchModeChanged(cameraId, enabled);
+                mCameraId = cameraId;
+            }
+        }, new android.os.Handler());
+
+        /*音*/
+//        am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+//        now_volume = am.getStreamVolume(AudioManager.STREAM_MUSIC);
+
     }
 
     /**********************************************************************
@@ -165,7 +203,8 @@ public class MainActivity extends AppCompatActivity {
 
         if (isActive == false ) {
 //test_make
-            countNumber = 5000;
+countNumber = 5000;
+
             if (countNumber > 0) {
                 if (countDown != null){
                     countDown.cancel();
@@ -205,13 +244,14 @@ public class MainActivity extends AppCompatActivity {
             //エラー表示が親切
         }
     }
-
+    /* ボタン：開始 */
     public void onStart(View v) throws InterruptedException {
         timerStartExec();
     }
+    /* ボタン：クリア */
     public void onClear(View v){
         if (isActive == true){
-//            DeviceOff();
+            DeviceOff();
         }
         timer_Setting(timer_count);
 
@@ -296,6 +336,8 @@ public class MainActivity extends AppCompatActivity {
         auto_restart = sharedPreferences.getBoolean("auto_retry", false);
         temp = sharedPreferences.getString("timer_count", "15");
         timer_count = Integer.parseInt(temp);
+        temp = sharedPreferences.getString("notice_time", "1");
+        notice_time = Integer.parseInt(temp);
         temp = sharedPreferences.getString("interval_time", "5");
         interval_time = Integer.parseInt(temp);
         notice_light = sharedPreferences.getBoolean("notice_light", false);
@@ -339,6 +381,60 @@ public class MainActivity extends AppCompatActivity {
         screenDisplay();
     }
 
+    /**********************************************************************
+        デバイス関連（アラーム、バイブ、ライト）
+     *********************************************************************/
+    //ライトの制御
+    public void lightControl(boolean isOn)
+    {
+        boolean _flag = false;
+        //カメラ正常認識できていない場合
+        if(mCameraId == null){
+            return;
+        }
+        if (isOn == false){
+            _flag = false;
+        }else{
+            _flag = true;
+        }
+        try {
+            mCameraManager.setTorchMode(mCameraId, _flag);
+        } catch (CameraAccessException e) {
+            //エラー処理
+            e.printStackTrace();
+            return;
+        }
+        islightON = _flag;
+    }
+    //ON処理　ライト・バイブレーション・音
+    public void DeviceOn()
+    {
+        //アラーム
+        if (notice_alarm == true) {
+            alarm.setLooping(true);
+            alarm.start();
+        }
+        //バイブレーション
+        if (notice_vibration) {
+            long vibratePattern[] = {300, 1000, 300, 1000};/* OFF→ON→OFF→ON*/
+            vibrator.vibrate(vibratePattern, 1);
+        }
+        //ライト
+        if (notice_light == true) {
+            lightControl(true);
+        }
+    }
+    //OFF処理　ライト・バイブレーション・音
+    public void DeviceOff()
+    {
+        //アラーム
+        alarm.pause();
+        //バイブレーション
+        vibrator.cancel();
+        //ライト
+        lightControl(false);
+    }
+
 
     /*
         カウントダウン処理
@@ -357,8 +453,8 @@ public class MainActivity extends AppCompatActivity {
 
             timerText.setText(dataFormat.format(0));
             now_countNumber = 0;
+            DeviceOn();
             AutoStart();
-//            DeviceOn();
         }
         public void onPause1(){
             onPause();
@@ -424,12 +520,20 @@ public class MainActivity extends AppCompatActivity {
 
         //  DB更新
 /*        AppDBUpdated();
-
-        if (bgm.isPlaying() == true) {
-            bgm.stop();
-            bgm = null;
+*/
+        //アラーム
+        if (alarm != null) {
+            if (alarm.isPlaying() == true) {
+                alarm.stop();
+                alarm = null;
+            }
+        }
+        //カメラ
+        if (mCameraManager != null)
+        {
+            mCameraManager = null;
         }
 
- */
+
     }
 }
