@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
     final long MAX_45 = 45 * 60000;
     final long INTERVAL = 10;
     private CountDown countDown;
+    private NoticeCountDown NoticeCountDown;
     private TextView timerText;
     private SimpleDateFormat dataFormat = new SimpleDateFormat("mm:ss.SS", Locale.US);
 //    private SimpleDateFormat dataFormat = new SimpleDateFormat("mm:ss", Locale.US);
@@ -267,6 +268,8 @@ countNumber = 5000;
     /* 自動スタート処理 */
     public void AutoStart(){
 
+        long temp_time = 0;
+
         /* 自動スタートSWが「無効：FALSE」の時 */
         if (auto_restart == false){
             ActiveMode = MODE_NORMAL;
@@ -287,6 +290,15 @@ countNumber = 5000;
         }
         screenDisplay();
         timerStartExec();
+
+        temp_time = (notice_time * MIN_1);
+        // 通知用タイマー
+        if (NoticeCountDown != null){
+            NoticeCountDown.cancel();
+        }
+        NoticeCountDown = new NoticeCountDown(temp_time, INTERVAL);
+        NoticeCountDown.start();
+
     }
 
 
@@ -435,7 +447,9 @@ countNumber = 5000;
         lightControl(false);
     }
 
-
+    /**********************************************************************
+         タイマー処理
+     *********************************************************************/
     /*
         カウントダウン処理
      */
@@ -453,7 +467,10 @@ countNumber = 5000;
 
             timerText.setText(dataFormat.format(0));
             now_countNumber = 0;
-            DeviceOn();
+
+            if (ActiveMode == MODE_NORMAL)  DeviceOn();
+            else                            DeviceOff();
+
             AutoStart();
         }
         public void onPause1(){
@@ -482,6 +499,35 @@ countNumber = 5000;
             screenDisplayStatus();
         }
     }
+
+    class NoticeCountDown extends CountDownTimer {
+        private long nowcount;
+
+        NoticeCountDown(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+            nowcount = millisInFuture;
+        }
+        @Override
+        public void onFinish() {
+            DeviceOff();
+        }
+        /*
+        public void onPause1(){
+            onPause();
+        }
+        public void onResume1(){
+            onResume1();
+        }
+        public void onRestart(){
+            onRestart();
+        }
+        */
+        // インターバルで呼ばれる
+        @Override
+        public void onTick(long millisUntilFinished) {
+        }
+    }
+
 
 
 
