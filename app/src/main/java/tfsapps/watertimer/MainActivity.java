@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.Button;
 import android.os.CountDownTimer;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -82,6 +83,10 @@ public class MainActivity extends AppCompatActivity {
     static boolean islightON = false;
     private AudioManager am;
 
+    private int now_volume;                     //現在の音量値
+    private int init_volume;                    //アプリ起動時の音量値
+    private SeekBar seek_volume;                //SeekBar
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
         /* 初期化処理 */
         timerText = findViewById(R.id.timer);
         timerText.setText(dataFormat.format(0));
-        screenDisplay();
 
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         alarm = MediaPlayer.create(this, R.raw.alarm);
@@ -111,9 +115,40 @@ public class MainActivity extends AppCompatActivity {
         }, new android.os.Handler());
 
         /*音*/
-//        am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-//        now_volume = am.getStreamVolume(AudioManager.STREAM_MUSIC);
+        am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        now_volume = am.getStreamVolume(AudioManager.STREAM_MUSIC);
 
+        /* SeekBar */
+        seek_volume = (SeekBar)findViewById(R.id.seekBar);
+        seek_volume.setOnSeekBarChangeListener(
+                new SeekBar.OnSeekBarChangeListener() {
+                    //ツマミをドラッグした時
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                        if (notice_alarm == true) {
+                            now_volume = seekBar.getProgress();
+                            am.setStreamVolume(AudioManager.STREAM_MUSIC, now_volume, 0);
+                        }
+                        screenDisplay();
+                    }
+                    //ツマミに触れた時
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+                        if (notice_alarm == false) {
+//                            seekBar.setProgress(now_volume);
+                        }
+                    }
+                    //ツマミを離した時
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+                        if (notice_alarm == false) {
+//                            seekBar.setProgress(now_volume);
+                        }
+                    }
+                }
+        );
+
+        screenDisplay();
     }
 
     /**********************************************************************
@@ -169,6 +204,8 @@ public class MainActivity extends AppCompatActivity {
         Button btn_clear = (Button) findViewById(R.id.btn_clear);
         String mess = "";
 
+        seek_volume.setProgress(now_volume);
+
         screenDisplayStatus();
 
         if (isActive == true) {
@@ -206,7 +243,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (isActive == false ) {
 //test_make
-countNumber = 5000;
+//countNumber = 5000;
 
             if (countNumber > 0) {
                 if (countDown != null){
