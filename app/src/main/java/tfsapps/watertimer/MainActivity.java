@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        if (now_countNumber == 0 || (isActive == false && isPause == false)) {
+        if ((isActive == false && now_countNumber == 0) || (isActive == false && isPause == false)) {
             txt_cup.setText("100%");
 //            txt_cup.setTextColor(getResources().getColor(R.color.my_blue));
             img_cup.setImageResource(R.drawable.per100);
@@ -243,7 +243,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (isActive == false ) {
 //test_make
-//countNumber = 5000;
+countNumber = 5000;
 
             if (countNumber > 0) {
                 if (countDown != null){
@@ -282,7 +282,9 @@ public class MainActivity extends AppCompatActivity {
                 }
                 screenDisplay();
             }
-            //エラー表示が親切
+            else{
+                DeviceOff();
+            }
         }
     }
     /* ボタン：開始 */
