@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     //タイマー値
+    final long SEC_1 = 1000;
     final long MIN_1 = 60000;
     final long MAX_45 = 45 * 60000;
     final long INTERVAL = 10;
@@ -68,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
     private long now_countNumber = 0;           //現在のタイマー値（カウントダウン中の値）
     private long countNumber = 0;
     private long org_countNumber = 0;
+    private long countSecNumber = 0;
 
     //デバイス関係
     //バイブレーション
@@ -239,6 +241,7 @@ countNumber = 5000;
                         countDown.cancel();
                     }
                     isPause = true;
+                    DeviceOff();
                 }
                 screenDisplay();
             }
@@ -268,8 +271,6 @@ countNumber = 5000;
     /* 自動スタート処理 */
     public void AutoStart(){
 
-        long temp_time = 0;
-
         /* 自動スタートSWが「無効：FALSE」の時 */
         if (auto_restart == false){
             ActiveMode = MODE_NORMAL;
@@ -291,12 +292,12 @@ countNumber = 5000;
         screenDisplay();
         timerStartExec();
 
-        temp_time = (notice_time * MIN_1);
+        timer_Sec_Setting(notice_time);
         // 通知用タイマー
         if (NoticeCountDown != null){
             NoticeCountDown.cancel();
         }
-        NoticeCountDown = new NoticeCountDown(temp_time, INTERVAL);
+        NoticeCountDown = new NoticeCountDown(countSecNumber, INTERVAL);
         NoticeCountDown.start();
 
     }
@@ -306,6 +307,12 @@ countNumber = 5000;
         countNumber = (temp_time * MIN_1);
         if (countNumber > MAX_45){
             countNumber = MAX_45;
+        }
+    }
+    public void timer_Sec_Setting(int temp_time){
+        countSecNumber = (temp_time * SEC_1);
+        if (countSecNumber > MIN_1){    //SEC_1 x 60
+            countSecNumber = MIN_1;
         }
     }
 
@@ -357,39 +364,6 @@ countNumber = 5000;
         notice_vibration = sharedPreferences.getBoolean("notice_vibration", false);
 
         timer_Setting(timer_count);
-
-        /*
-        //  アラーム種類が変更？
-        if (bgm_name != bgm_str) {
-            if (bgm.isPlaying() == true) {
-                bgm.stop();
-                bgm = null;
-                startflag = 0;
-            }
-            bgm_name = bgm_str;
-            bgm = MediaPlayer.create(this, R.raw.alarm);
-        }
-
-        //  アラーム自動スタート制御
-        if (auto_alarm_flag == false) {
-            if (bgm.isPlaying() == false) {
-                btnStartDisp();
-                startflag = 0;
-            }
-        } else {
-            if (bgm.isPlaying() == false) {
-                bgm.setLooping(true);
-                bgm.start();
-            }
-            startflag = 1;
-            stopcount = 0;
-            btnStopDisp();
-        }
-        //  アラーム停止制御
-        if (alarm_stop_flag == false) stopmax = 1;
-        else stopmax = 10;
-        */
-
         screenDisplay();
     }
 
@@ -579,7 +553,6 @@ countNumber = 5000;
         {
             mCameraManager = null;
         }
-
 
     }
 }
