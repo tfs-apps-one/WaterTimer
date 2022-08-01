@@ -243,7 +243,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (isActive == false ) {
 //test_make
-countNumber = 5000;
+//countNumber = 5000;
 
             if (countNumber > 0) {
                 if (countDown != null){

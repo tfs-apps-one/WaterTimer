@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WaterTimer</string>
+    <string name="app_name">Hydration Timer</string>
 
     <string name="action_settings">SETTING</string>
     <string name="btn_tips">TIPS</string>
