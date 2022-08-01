@@ -2,11 +2,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="tfsapps.watertimer">
 
+    <!-- バイブレーション -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <!-- カメラ -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.flash" />
+
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/wt256x256"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:screenOrientation="portrait"
+        android:roundIcon="@drawable/wt256x256"
         android:supportsRtl="true"
         android:theme="@style/Theme.WaterTimer">
         <activity

@@ -1,8 +1,9 @@
 <resources>
-    <string name="app_name">WaterTimer</string>
+    <string name="app_name">Hydration Timer</string>
 
     <string name="action_settings">SETTING</string>
     <string name="btn_tips">TIPS</string>
+    <string name="message_text">Please display this screen while the timer is running</string>
 
     <string name="preference_title">SET LIST</string>
 
@@ -12,6 +13,10 @@
     <string name="timer_count_title">Timer Setting (min)</string>
     <string name="timer_count_summary">Set a Timer (recommended 15-20 min)</string>
     <string name="timer_count_dialog">Timer Input (max 45 min)</string>
+
+    <string name="notice_time_title">Ringing Time Setting (Sec)</string>
+    <string name="notice_time_summary">Set a Ringing Time</string>
+    <string name="notice_time_dialog">Ringing Time Input (max 60 sec)</string>
 
     <string name="interval_title">Interval Time Setting (min)</string>
     <string name="interval_summary">Set a Interval Time</string>
@@ -25,5 +30,7 @@
 
     <string name="notice_vibration_title">Setting Vibration</string>
     <string name="notice_vibration_summary">It vibrates when the time is up.</string>
+
+    <string name="intervaling">** During break **</string>
 
 </resources>
