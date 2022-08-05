@@ -30,7 +30,9 @@ import android.media.MediaPlayer;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraManager;
 import android.media.AudioManager;
-
+//広告
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.AdRequest;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -87,6 +89,9 @@ public class MainActivity extends AppCompatActivity {
     private int init_volume;                    //アプリ起動時の音量値
     private SeekBar seek_volume;                //SeekBar
 
+    // 広告
+    private AdView mAdview;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,6 +122,11 @@ public class MainActivity extends AppCompatActivity {
         /*音*/
         am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         now_volume = am.getStreamVolume(AudioManager.STREAM_MUSIC);
+
+        //広告
+        mAdview = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdview.loadAd(adRequest);
 
         /* SeekBar */
         seek_volume = (SeekBar)findViewById(R.id.seekBar);
