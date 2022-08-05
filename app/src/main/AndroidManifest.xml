@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="tfsapps.watertimer">
 
+    <!-- ネットワーク -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <!-- バイブレーション -->
     <uses-permission android:name="android.permission.VIBRATE" />
     <!-- カメラ -->
@@ -17,6 +21,11 @@
         android:roundIcon="@drawable/wt256x256"
         android:supportsRtl="true"
         android:theme="@style/Theme.WaterTimer">
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-4924620089567925~2961145929" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
