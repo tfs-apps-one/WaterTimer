@@ -224,11 +224,11 @@ public class MainActivity extends AppCompatActivity {
             btn_start.setText(mess);
 
             btn_start.setBackgroundTintList(null);
-            btn_start.setTextColor(getColor(R.color.material_on_background_disabled));
+            btn_start.setTextColor(getColor(R.color.org_gray));
             btn_start.setBackgroundResource(R.drawable.btn_round2);
 
             btn_clear.setBackgroundTintList(null);
-            btn_clear.setTextColor(getColor(R.color.design_default_color_error));
+            btn_clear.setTextColor(getColor(R.color.org_red));
             btn_clear.setBackgroundResource(R.drawable.btn_round2);
         }
         else{
@@ -237,11 +237,11 @@ public class MainActivity extends AppCompatActivity {
             btn_start.setBackgroundTintList(null);
             mess += "START";
             btn_start.setText(mess);
-            btn_start.setTextColor(getColor(R.color.design_default_color_primary_variant));
+            btn_start.setTextColor(getColor(R.color.org_blue));
             btn_start.setBackgroundResource(R.drawable.btn_round2);
 
             btn_clear.setBackgroundTintList(null);
-            btn_clear.setTextColor(getColor(R.color.design_default_color_error));
+            btn_clear.setTextColor(getColor(R.color.org_red));
             btn_clear.setBackgroundResource(R.drawable.btn_round2);
         }
     }

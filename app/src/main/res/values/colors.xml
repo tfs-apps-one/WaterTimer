@@ -10,5 +10,8 @@
     <color name="my_gray">#FF5f5f5f</color>
     <color name="my_blue">#FF555599</color>
     <color name="my_green">#FF559955</color>
+    <color name="org_blue">#FF2222D3</color>
+    <color name="org_red">#FFD32222</color>
+    <color name="org_gray">#FF999999</color>
 
 </resources>
