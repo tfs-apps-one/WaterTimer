@@ -4,6 +4,7 @@
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_main"
+    android:background="@drawable/bak_grad2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -21,8 +22,8 @@
         android:layout_marginEnd="10dp"
         android:background="@color/cardview_shadow_end_color"
         android:textColor="#555599"
-        android:textAlignment="center"
         android:textSize="60dp"
+        android:gravity="center"
         app:layout_constraintTop_toBottomOf="parent" />
 
     <ImageView
@@ -45,7 +46,7 @@
         app:layout_constraintTop_toBottomOf="parent"
         android:layout_marginTop="140dp"
         android:layout_marginEnd="10dp"
-        android:textAlignment="center"
+        android:gravity="center"
         android:text="100%"
         android:textStyle="bold"
         app:backgroundTint="@null"
@@ -142,8 +143,7 @@
         android:text="@string/message_text"
         android:textStyle="bold"
         app:backgroundTint="@null"
-        android:textColor="#995555"
-        android:textSize="15dp" />
+        android:textColor="#995555"/>
 
     <LinearLayout
         android:id="@+id/linearLayout5"

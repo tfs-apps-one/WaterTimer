@@ -33,6 +33,7 @@ import android.media.AudioManager;
 //広告
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.MobileAds;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -124,9 +125,11 @@ public class MainActivity extends AppCompatActivity {
         now_volume = am.getStreamVolume(AudioManager.STREAM_MUSIC);
 
         //広告
-        mAdview = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdview.loadAd(adRequest);
+        MobileAds.initialize(this, initializationStatus -> {
+            mAdview = findViewById(R.id.adView);
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mAdview.loadAd(adRequest);
+        });
 
         /* SeekBar */
         seek_volume = (SeekBar)findViewById(R.id.seekBar);
@@ -224,11 +227,11 @@ public class MainActivity extends AppCompatActivity {
             btn_start.setText(mess);
 
             btn_start.setBackgroundTintList(null);
-            btn_start.setTextColor(getColor(R.color.material_on_background_disabled));
+            btn_start.setTextColor(getColor(R.color.org_gray));
             btn_start.setBackgroundResource(R.drawable.btn_round2);
 
             btn_clear.setBackgroundTintList(null);
-            btn_clear.setTextColor(getColor(R.color.design_default_color_error));
+            btn_clear.setTextColor(getColor(R.color.org_red));
             btn_clear.setBackgroundResource(R.drawable.btn_round2);
         }
         else{
@@ -237,11 +240,11 @@ public class MainActivity extends AppCompatActivity {
             btn_start.setBackgroundTintList(null);
             mess += "START";
             btn_start.setText(mess);
-            btn_start.setTextColor(getColor(R.color.design_default_color_primary_variant));
+            btn_start.setTextColor(getColor(R.color.org_blue));
             btn_start.setBackgroundResource(R.drawable.btn_round2);
 
             btn_clear.setBackgroundTintList(null);
-            btn_clear.setTextColor(getColor(R.color.design_default_color_error));
+            btn_clear.setTextColor(getColor(R.color.org_red));
             btn_clear.setBackgroundResource(R.drawable.btn_round2);
         }
     }
