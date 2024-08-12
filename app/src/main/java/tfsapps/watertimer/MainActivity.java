@@ -33,6 +33,7 @@ import android.media.AudioManager;
 //広告
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.MobileAds;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -124,9 +125,11 @@ public class MainActivity extends AppCompatActivity {
         now_volume = am.getStreamVolume(AudioManager.STREAM_MUSIC);
 
         //広告
-        mAdview = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdview.loadAd(adRequest);
+        MobileAds.initialize(this, initializationStatus -> {
+            mAdview = findViewById(R.id.adView);
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mAdview.loadAd(adRequest);
+        });
 
         /* SeekBar */
         seek_volume = (SeekBar)findViewById(R.id.seekBar);
